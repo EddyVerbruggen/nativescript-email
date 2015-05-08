@@ -1,6 +1,6 @@
 {
   "name": "nativescript-email",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An Email module for use in NativeScript apps",
   "main": "email.js",
   "repository": {
