@@ -22,7 +22,7 @@ var email = require("nativescript-email");
 
 ```js
   email.available().then(function(avail) {
-      alert("Available? " + avail);
+      console.log("Email available? " + avail);
   })
 ```
 
@@ -35,7 +35,7 @@ var email = require("nativescript-email");
       cc: ['ccperson@somewhere.com'],
       bcc: ['eddy@combidesk.com', 'eddy@x-services.nl']
   }).then(function(r) {
-      console.log("email closed");
+      console.log("Email composer closed");
   });
 ```
 
