@@ -1,36 +1,38 @@
 # NativeScript Email
 
-An Email module for use in NativeScript apps.
+An Email plugin for use in your NativeScript app.
 You can use it to compose emails, edit the draft manually, and send it.
 
 ## Installation
-From the command prompt go to your app's `app` folder and execute:
+Run the following command from the root of your project:
 
 ```
-npm install nativescript-email
+tns plugin add nativescript-email
 ```
 
 ## Usage
 
+To use this plugin you must first require() it:
+
+```js
+var email = require("nativescript-email");
+```
+
 ### available
 
 ```js
-  var email = require( "./node_modules/nativescript-email/email" );
-
   email.available().then(function(avail) {
-      alert("Avail? " + avail);
+      alert("Available? " + avail);
   })
 ```
 
 ### compose
 ```js
-  var email = require( "./node_modules/nativescript-email/email" );
-
   email.compose({
       subject: "Yo",
       body: "Hello <strong>dude</strong> :)",
       to: ['eddyverbruggen@gmail.com', 'to@person2.com'],
-      cc: ['eddyverbruggen@triodos.nl'],
+      cc: ['ccperson@somewhere.com'],
       bcc: ['eddy@combidesk.com', 'eddy@x-services.nl']
   }).then(function(r) {
       console.log("email closed");
@@ -39,8 +41,7 @@ npm install nativescript-email
 
 ## Known issues
 On Android, you can pass an array of to/cc/bcc, but only the first one is added.
+Should be able to fix that in a future release.
 
 ## Future work
 Add attachment support
-
-Fix the known issues :)
