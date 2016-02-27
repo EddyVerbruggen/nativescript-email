@@ -34,7 +34,7 @@ var email = require("nativescript-email");
       to: ['eddyverbruggen@gmail.com', 'to@person2.com'],
       cc: ['ccperson@somewhere.com'],
       bcc: ['eddy@combidesk.com', 'eddy@x-services.nl']
-  }).then(function(r) {
+  }).then(function() {
       console.log("Email composer closed");
   });
 ```

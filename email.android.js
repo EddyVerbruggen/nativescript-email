@@ -37,8 +37,9 @@ exports.compose = function (arg) {
         }
       }
 
-      mail.putExtra(android.content.Intent.EXTRA_SUBJECT, arg.subject);
-
+      if (arg.subject) {
+        mail.putExtra(android.content.Intent.EXTRA_SUBJECT, arg.subject);
+      }
       if (arg.to) {
         mail.putExtra(android.content.Intent.EXTRA_EMAIL, toStringArray(arg.to));
       }
