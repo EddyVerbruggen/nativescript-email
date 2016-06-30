@@ -3,7 +3,8 @@ var frame = require("ui/frame");
 exports.available = function () {
   return new Promise(function (resolve, reject) {
     try {
-      resolve(MFMailComposeViewController.canSendMail());
+      var device = UIDevice.currentDevice().name;
+      resolve(device.toLowerCase().indexOf("simulator") === -1 && MFMailComposeViewController.canSendMail());
     } catch (ex) {
       console.log("Error in email.available: " + ex);
       reject(ex);

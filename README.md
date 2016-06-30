@@ -43,5 +43,8 @@ var email = require("nativescript-email");
 On Android, you can pass an array of to/cc/bcc, but only the first one is added.
 Should be able to fix that in a future release.
 
+On iOS you can't use the simulator to test the plugin because of an iOS limitation.
+To prevent a crash this plugin returns `false` when `available` is invoked on the iOS sim.
+
 ## Future work
 Add attachment support
