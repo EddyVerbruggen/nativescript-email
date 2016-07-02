@@ -31,6 +31,12 @@ declare module "nativescript-email" {
        * Known issue: on Android only the first item in the array is added.
        */
       bcc?: string[];
+
+      /**
+       * On Android the user may have more than one app able to send email with.
+       * That will trigger a picker which has a title. You can change the default title here.
+       */
+      appPickerTitle?: string;
     }
 
     export function available(): Promise<boolean>;

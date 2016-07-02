@@ -56,7 +56,7 @@ exports.compose = function (arg) {
 
       mail.setType("application/octet-stream");
 
-      var mailIntent = android.content.Intent.createChooser(mail, "Open with..");
+      var mailIntent = android.content.Intent.createChooser(mail, arg.appPickerTitle || "Open with..");
       mailIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
       context.startActivity(mailIntent);
     } catch (ex) {

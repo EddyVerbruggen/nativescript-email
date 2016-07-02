@@ -33,7 +33,8 @@ var email = require("nativescript-email");
       body: "Hello <strong>dude</strong> :)",
       to: ['eddyverbruggen@gmail.com', 'to@person2.com'],
       cc: ['ccperson@somewhere.com'],
-      bcc: ['eddy@combidesk.com', 'eddy@x-services.nl']
+      bcc: ['eddy@combidesk.com', 'eddy@x-services.nl'],
+      appPickerTitle: 'Compose with..' // for Android, default: 'Open with..'
   }).then(function() {
       console.log("Email composer closed");
   });
