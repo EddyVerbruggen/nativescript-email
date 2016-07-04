@@ -1,5 +1,4 @@
 var application = require("application");
-var context = application.android.context;
 
 exports.available = function () {
   return new Promise(function (resolve, reject) {
@@ -50,15 +49,34 @@ exports.compose = function (arg) {
         mail.putExtra(android.content.Intent.EXTRA_BCC, toStringArray(arg.bcc));
       }
       if (arg.attachments) {
-        // TODO
-        //mail.addAttachmentDataMimeTypeFileName(data, mimeType, fileName);
+        var uris = new java.util.ArrayList();
+        for (var a in arg.attachments) {
+          var attachment = arg.attachments[a];
+          var path = attachment.path;
+          var fileName = attachment.fileName;
+          var uri = _getUriForPath(path, fileName, application.android.context);
+
+          if (!uri) {
+            console.log("File not found for path: " + path);
+            continue;
+          }
+          uris.add(uri);
+        }
+
+        if (!uris.isEmpty()) {
+          mail.setType("message/rfc822");
+          mail.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
+        }
       }
 
       mail.setType("application/octet-stream");
 
       var mailIntent = android.content.Intent.createChooser(mail, arg.appPickerTitle || "Open with..");
       mailIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-      context.startActivity(mailIntent);
+      application.android.context.startActivity(mailIntent);
+
+      // we can wire up an intent receiver but it's always the same resultCode anyway so that's useless.. thanks Android!
+      resolve(true);
     } catch (ex) {
       console.log("Error in email.compose: " + ex);
       reject(ex);
@@ -66,8 +84,70 @@ exports.compose = function (arg) {
   });
 };
 
+function _getUriForPath(path, fileName, ctx) {
+  // TODO non-base64 methods
+  if (path.indexOf("res:") === 0) {
+    // return getUriForResourcePath(path, ctx);
+    return null;
+  } else if (path.indexOf("file:///") === 0) {
+    // return getUriForAbsolutePath(path);
+    return null;
+  } else if (path.indexOf("file://") === 0) {
+    // return getUriForAssetPath(path, ctx);
+    return null;
+  } else if (path.indexOf("base64:") === 0) {
+    return _getUriForBase64Content(path, fileName, ctx);
+  } else {
+    return android.net.Uri.parse(path);
+  }
+}
+
+function _getUriForBase64Content(content, fileName, ctx) {
+  var resData = content.substring(content.indexOf("://") + 3);
+  var dir = ctx.getExternalCacheDir();
+  var bytes;
+
+  try {
+    bytes = android.util.Base64.decode(resData, 0);
+  } catch (ex) {
+    console.log("Invalid Base64 string: " + resData);
+    return android.net.Uri.EMPTY;
+  }
+
+  if (dir === null) {
+    console.log("Missing external cache dir");
+    return android.net.Uri.EMPTY;
+  }
+
+  var storage = dir.toString() + "/emailcomposer";
+  var file = new java.io.File(storage, fileName);
+  new java.io.File(storage).mkdir();
+
+  console.log("dir created: " + storage);
+  console.log("res: " + fileName);
+  console.log("file: " + file);
+
+
+  var fileOutStream;
+  try {
+    fileOutStream = new java.io.FileOutputStream(file);
+    fileOutStream.write(bytes);
+    fileOutStream.flush();
+  } catch (ex) {
+    console.log("Error writing file: " + ex);
+  } finally {
+    if (fileOutStream !== null) {
+      try {
+        fileOutStream.close();
+      } catch (ex2) {
+        console.log("Close exception.. ignoring: " + ex2);
+      }
+    }
+  }
+  return android.net.Uri.fromFile(file);
+}
+
 var toStringArray = function (arg) {
-  // TODO String[] is not correctly mapped via the {N} bridge, so only the first element is passed.. find another way or wait for a {N} fix
   var arr = java.lang.reflect.Array.newInstance(java.lang.String.class, arg.length);
   for (var i = 0; i < arg.length; i++) {
     arr[i] = arg[i];
