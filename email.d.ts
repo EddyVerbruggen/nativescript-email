@@ -10,17 +10,18 @@ declare module "nativescript-email" {
       fileName: string;
 
       /**
-       * At the moment use a base64 encoded file only, this will be extended soon.
-       * Example:
+       * There are various ways to use the path param:
        * 
-       *   path: 'base64://iVBORw..XYZ'
-       * 
+       *   - base64 encoded: 'base64://iVBORw..XYZ'
+       *   - local app folder 'file://..
+       *   - anywhere on the device: 'file:///..'
+       *   - or '/some/path/to/file.png'
        */
       path: string;
 
       /**
-       * Used to help the OS figure out how to send the file.
-       * Exampe:
+       * Used to help the iOS figure out how to send the file (not used on Android).
+       * Example:
        * 
        *   mimeType: 'image/png'
        */

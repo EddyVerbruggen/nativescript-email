@@ -1,4 +1,5 @@
 var frame = require("ui/frame");
+var fs = require("file-system");
 
 exports.available = function () {
   return new Promise(function (resolve, reject) {
@@ -77,8 +78,6 @@ function _getDataForAttachmentPath(path) {
   var data = null;
   if (path.indexOf("file:///") === 0) {
     data = _dataForAbsolutePath(path);
-  } else if (path.indexOf("res:") === 0) {
-    data = _dataForResource(path);
   } else if (path.indexOf("file://") === 0) {
     data = _dataForAsset(path);
   } else if (path.indexOf("base64:") === 0) {
@@ -97,34 +96,16 @@ function _dataFromBase64(base64String) {
   return NSData.alloc().initWithBase64EncodedStringOptions(base64String, 0);
 }
 
-function _dataForResource(path) {
-  var imgName = path.replace(/\.[^/.]+$/, "");
-  console.log("_dataForResource imgName: " + imgName);
-
-  var img = UIImage.imageNamed(imgName);
-  if (img === null) {
-    return null;
-  }
-  
-  return UIImagePNGRepresentation(img);
-}
-
 function _dataForAsset(path) {
-  var fileManager = NSFileManager.defaultManager();
-  var absPath;
+  path = path.replace("file://", "/");
 
-  var mainBundle = NSBundle.mainBundle();
-  var bundlePath = mainBundle.bundlePath().stringByAppendingString("/");
-  console.log("_dataForAsset bundlePath: " + bundlePath);
-
-  absPath = path.stringByReplacingOccurrencesOfStringWithString("file:/", "app");
-  absPath = bundlePath.stringByAppendingString(absPath);
-
-  if (!fileManager.fileExistsAtPath(absPath)) {
+  if (!fs.File.exists(path)) {
+    console.log("File does not exist: " + path);
     return null;
   }
 
-  return fileManager.contentsAtPath(absPath);
+  var localFile = fs.File.fromPath(path);
+  return localFile.readSync(function(e) { error = e; });
 }
 
 function _dataForAbsolutePath(path) {
