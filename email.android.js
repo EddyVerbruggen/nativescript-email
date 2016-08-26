@@ -54,7 +54,8 @@ exports.compose = function (arg) {
         mail.putExtra(android.content.Intent.EXTRA_BCC, toStringArray(arg.bcc));
       }
 
-      mail.setType("application/octet-stream");
+      mail.setType("message/rfc822");
+      mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE); 
 
       if (arg.attachments) {
         var uris = new java.util.ArrayList();
@@ -72,8 +73,6 @@ exports.compose = function (arg) {
         }
 
         if (!uris.isEmpty()) {
-          mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE);
-          mail.setType("message/rfc822");
           mail.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
         }
       } else {
