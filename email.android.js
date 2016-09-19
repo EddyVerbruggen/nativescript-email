@@ -10,7 +10,7 @@ exports.available = function () {
     try {
       var uri = android.net.Uri.fromParts("mailto", "eddyverbruggen@gmail.com", null);
       var intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO, uri);
-      var packageManager = application.android.context.getPackageManager();
+      var packageManager = com.tns.NativeScriptApplication.getInstance().getPackageManager();
       var nrOfMailApps = packageManager.queryIntentActivities(intent, 0).size();
       resolve(nrOfMailApps > 0);
     } catch (ex) {
@@ -55,7 +55,7 @@ exports.compose = function (arg) {
       }
 
       mail.setType("message/rfc822");
-      mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE); 
+      mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE);
 
       if (arg.attachments) {
         var uris = new java.util.ArrayList();
