@@ -4,7 +4,9 @@ An Email plugin for use in your NativeScript app.
 You can use it to compose emails, edit the draft manually, and send it.
 
 ## Installation
-Run the following command from the root of your project:
+Make sure you're running NativeScript 2.3.0 or up. Do `npm install -g nativescript` if not.
+
+The run the following command from the root of your project:
 
 ```
 tns plugin add nativescript-email

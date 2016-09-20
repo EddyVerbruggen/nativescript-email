@@ -1,10 +1,12 @@
 var frame = require("ui/frame");
 var fs = require("file-system");
+var utils = require("utils/utils");
 
 exports.available = function () {
   return new Promise(function (resolve, reject) {
     try {
-      var device = UIDevice.currentDevice().name;
+      var currentDevice = utils.ios.getter(UIDevice, UIDevice.currentDevice);
+      var device = currentDevice.name;
       resolve(device.toLowerCase().indexOf("simulator") === -1 && MFMailComposeViewController.canSendMail());
     } catch (ex) {
       console.log("Error in email.available: " + ex);
@@ -53,19 +55,21 @@ exports.compose = function (arg) {
         }
       }
 
+      var app = utils.ios.getter(UIApplication, UIApplication.sharedApplication);
+
       // Assign first to local variable, otherwise it will be garbage collected since delegate is weak reference.
       var delegate = MFMailComposeViewControllerDelegateImpl.new().initWithCallback(function (result, error) {
         // invoke the callback / promise
         resolve(result == MFMailComposeResultSent);
         // close the mail
-        UIApplication.sharedApplication().keyWindow.rootViewController.dismissViewControllerAnimatedCompletion(true, null);
+        app.keyWindow.rootViewController.dismissViewControllerAnimatedCompletion(true, null);
         // Remove the local variable for the delegate.
         delegate = undefined;
       });
 
       mail.mailComposeDelegate = delegate;
 
-      UIApplication.sharedApplication().keyWindow.rootViewController.presentViewControllerAnimatedCompletion(mail, true, null);
+      app.keyWindow.rootViewController.presentViewControllerAnimatedCompletion(mail, true, null);
 
     } catch (ex) {
       console.log("Error in email.compose: " + ex);
