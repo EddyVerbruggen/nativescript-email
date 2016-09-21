@@ -24,7 +24,7 @@ exports.compose = function (arg) {
         reject("No mail available");
       }
 
-      var mail = MFMailComposeViewController.alloc().init();
+      var mail = MFMailComposeViewController.new();
 
       var message = arg.body;
       if (message) {
@@ -87,7 +87,7 @@ function _getDataForAttachmentPath(path) {
   } else if (path.indexOf("base64:") === 0) {
     data = _dataFromBase64(path);
   } else {
-    var fileManager = NSFileManager.defaultManager();
+    var fileManager = utils.ios.getter(NSFileManager, NSFileManager.defaultManager);
     if (fileManager.fileExistsAtPath(path)) {
       data = fileManager.contentsAtPath(path);
     }
@@ -113,7 +113,7 @@ function _dataForAsset(path) {
 }
 
 function _dataForAbsolutePath(path) {
-  var fileManager = NSFileManager.defaultManager();
+  var fileManager = utils.ios.getter(NSFileManager, NSFileManager.defaultManager);
   var absPath = path.replace("file://", "");
 
   if (!fileManager.fileExistsAtPath(absPath)) {
