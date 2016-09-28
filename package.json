@@ -3,6 +3,7 @@
   "version": "1.3.2",
   "description": "Email plugin for your NativeScript app",
   "main": "email.js",
+  "typings": email.d.ts",
   "nativescript": {
     "platforms": {
       "ios": "2.3.0",
@@ -24,6 +25,13 @@
     "Attachment"
   ],
   "author": "Eddy Verbruggen <eddyverbruggen@gmail.com> (https://github.com/EddyVerbruggen)",
+  "contributors": [
+    {
+      "name": "Brad Martin",
+      "email": "bradwaynemartin@gmail.com",
+      "url": "https://github.com/BradMartin"
+    }
+  ],
   "license": "MIT",
   "bugs": "https://github.com/eddyverbruggen/nativescript-email/issues",
   "homepage": "https://github.com/eddyverbruggen/nativescript-email"

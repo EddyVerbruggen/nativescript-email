@@ -1,6 +1,4 @@
-declare module "nativescript-email" {
-
-    interface Attachment {
+    export interface Attachment {
       /**
        * The name used for the attachment.
        * Example:
@@ -81,4 +79,3 @@ declare module "nativescript-email" {
      * On Android it's always true, unfortunately.
      */
     export function compose(options: ComposeOptions): Promise<boolean>;
-}
