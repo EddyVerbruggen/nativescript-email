@@ -14,13 +14,31 @@ tns plugin add nativescript-email
 
 ## Usage
 
-To use this plugin you must first require() it:
+To use this plugin you must first require/import it:
+
+#### typescript
+
+```js
+import * as email from "nativescript-email";
+```
+
+#### javascript
 
 ```js
 var email = require("nativescript-email");
 ```
 
 ### available
+
+#### typescript
+
+```js
+  email.available((avail) => {
+      console.log("Email available? " + avail);
+  })
+```
+
+#### javascript
 
 ```js
   email.available().then(function(avail) {
@@ -29,6 +47,9 @@ var email = require("nativescript-email");
 ```
 
 ### compose
+
+#### javascript
+
 ```js
 
   // let's first create a File object using the tns file module
