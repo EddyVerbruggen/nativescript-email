@@ -63,9 +63,12 @@ exports.compose = function (arg) {
         resolve(result == MFMailComposeResultSent);
         // close the mail
         app.keyWindow.rootViewController.dismissViewControllerAnimatedCompletion(true, null);
-        // Remove the local variable for the delegate.
-        delegate = undefined;
+        // release the delegate instance
+        CFRelease(delegate);
       });
+
+      // retain the delegate because the mailComposeDelegate property won't do it for us
+      CFRetain(delegate);
 
       mail.mailComposeDelegate = delegate;
 
