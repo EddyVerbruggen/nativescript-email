@@ -1,6 +1,7 @@
 # NativeScript Email
 
 An Email plugin for use in your NativeScript app.
+
 You can use it to compose emails, edit the draft manually, and send it.
 
 ## Installation
