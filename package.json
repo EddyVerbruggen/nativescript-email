@@ -2,7 +2,7 @@
   "name": "nativescript-email",
   "version": "1.3.4",
   "description": "Email plugin for your NativeScript app",
-  "main": "email.js",
+  "main": "email",
   "typings": "email.d.ts",
   "nativescript": {
     "platforms": {
