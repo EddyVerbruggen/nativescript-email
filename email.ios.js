@@ -43,7 +43,8 @@ exports.compose = function (arg) {
           var path = attachment.path;
           var data = _getDataForAttachmentPath(path);
           if (data === null) {
-            console.log("File not found for path: " + path);
+            reject("File not found for path: " + path);
+            return;
           } else if (!attachment.fileName) {
             console.log("attachment.fileName is mandatory");
           } else if (!attachment.mimeType) {

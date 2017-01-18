@@ -13,25 +13,25 @@ The run the following command from the root of your project:
 tns plugin add nativescript-email
 ```
 
-## Usage
+## API
 
 To use this plugin you must first require/import it:
 
-#### typescript
+#### TypeScript
 
 ```js
 import * as email from "nativescript-email";
 ```
 
-#### javascript
+#### JavaScript
 
 ```js
 var email = require("nativescript-email");
 ```
 
-### available
+### `available`
 
-#### typescript
+#### TypeScript
 
 ```js
   email.available((avail) => {
@@ -39,7 +39,7 @@ var email = require("nativescript-email");
   })
 ```
 
-#### javascript
+#### JavaScript
 
 ```js
   email.available().then(function(avail) {
@@ -47,9 +47,9 @@ var email = require("nativescript-email");
   })
 ```
 
-### compose
+### `compose`
 
-#### javascript
+#### JavaScript
 
 ```js
 
@@ -76,12 +76,17 @@ var email = require("nativescript-email");
             mimeType: 'image/png'
       }],
       appPickerTitle: 'Compose with..' // for Android, default: 'Open with..'
-  }).then(function() {
+  }).then(
+    function() {
       console.log("Email composer closed");
-  });
+    }, function(err) {
+      console.log("Error: " + err);
+    });
 ```
 
 Full attachment support has been added to 1.3.0 per the example above.
+
+Since 1.4.0 the promise will be rejected in case a file can't be found.
 
 ## Known issues
 On iOS you can't use the simulator to test the plugin because of an iOS limitation.

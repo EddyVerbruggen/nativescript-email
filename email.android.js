@@ -66,8 +66,8 @@ exports.compose = function (arg) {
           var uri = _getUriForPath(path, fileName, application.android.context);
 
           if (!uri) {
-            console.log("File not found for path: " + path);
-            continue;
+            reject("File not found for path: " + path);
+            return;
           }
           uris.add(uri);
         }
