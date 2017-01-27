@@ -34,7 +34,7 @@ var email = require("nativescript-email");
 #### TypeScript
 
 ```js
-  email.available((avail) => {
+  email.available((avail: boolean) => {
       console.log("Email available? " + avail);
   })
 ```
