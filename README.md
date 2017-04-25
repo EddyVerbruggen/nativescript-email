@@ -88,6 +88,9 @@ Full attachment support has been added to 1.3.0 per the example above.
 
 Since 1.4.0 the promise will be rejected in case a file can't be found.
 
+## Usage with Angular
+Check out [this tutorial (YouTube)](https://www.youtube.com/watch?v=fSnQb9-Gtdk) to learn how to use this plugin in a NativeScript-Angular app.
+
 ## Known issues
 On iOS you can't use the simulator to test the plugin because of an iOS limitation.
 To prevent a crash this plugin returns `false` when `available` is invoked on the iOS sim.
