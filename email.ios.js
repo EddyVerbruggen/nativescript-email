@@ -2,12 +2,34 @@ var frame = require("ui/frame");
 var fs = require("file-system");
 var utils = require("utils/utils");
 
+var _isEmailAvailable = null;
+
+var _determineAvailability = function() {
+  if (_isEmailAvailable === null) {
+    var isSimulator;
+    var processInfo = utils.ios.getter(NSProcessInfo, NSProcessInfo.processInfo);
+    var isMinIOS9 = processInfo.isOperatingSystemAtLeastVersion({majorVersion: 9, minorVersion: 0, patchVersion: 0});
+    if (isMinIOS9) {
+      var simDeviceName = processInfo.environment.objectForKey("SIMULATOR_DEVICE_NAME");
+      isSimulator = simDeviceName !== null;
+    } else {
+      var currentDevice = utils.ios.getter(UIDevice, UIDevice.currentDevice);
+      isSimulator = currentDevice.name.toLowerCase().indexOf("simulator") > -1;
+    }
+
+    if (isSimulator) {
+      console.log("Email is not available on the Simulator");
+    }
+
+    _isEmailAvailable = !isSimulator && MFMailComposeViewController.canSendMail();
+  }
+  return _isEmailAvailable;
+}
+
 exports.available = function () {
   return new Promise(function (resolve, reject) {
     try {
-      var currentDevice = utils.ios.getter(UIDevice, UIDevice.currentDevice);
-      var device = currentDevice.name;
-      resolve(device.toLowerCase().indexOf("simulator") === -1 && MFMailComposeViewController.canSendMail());
+      resolve(_determineAvailability());
     } catch (ex) {
       console.log("Error in email.available: " + ex);
       reject(ex);
@@ -20,8 +42,9 @@ exports.compose = function (arg) {
   return new Promise(function (resolve, reject) {
     try {
 
-      if (!that.available()) {
+      if (!_determineAvailability()) {
         reject("No mail available");
+        return;
       }
 
       var mail = MFMailComposeViewController.new();

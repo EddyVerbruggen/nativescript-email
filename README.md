@@ -19,8 +19,12 @@ To use this plugin you must first require/import it:
 
 #### TypeScript
 
-```js
+```typescript
 import * as email from "nativescript-email";
+// or
+import { compose } from "nativescript-email";
+// or even
+import { compose as composeEmail } from "nativescript-email";
 ```
 
 #### JavaScript
@@ -33,7 +37,7 @@ var email = require("nativescript-email");
 
 #### TypeScript
 
-```js
+```typescript
   email.available((avail: boolean) => {
       console.log("Email available? " + avail);
   })
@@ -52,7 +56,6 @@ var email = require("nativescript-email");
 #### JavaScript
 
 ```js
-
   // let's first create a File object using the tns file module
   var fs = require("file-system");
   var appPath = fs.knownFolders.currentApp().path;
