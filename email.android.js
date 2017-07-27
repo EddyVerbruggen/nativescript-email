@@ -8,9 +8,9 @@ var fs = require("file-system");
 exports.available = function () {
   return new Promise(function (resolve, reject) {
     try {
-      var uri = android.net.Uri.fromParts("mailto", "eddyverbruggen@gmail.com", null);
+      var uri = android.net.Uri.fromParts("mailto", "", null);
       var intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO, uri);
-      var packageManager = com.tns.NativeScriptApplication.getInstance().getPackageManager();
+      var packageManager = application.android.context.getPackageManager();
       var nrOfMailApps = packageManager.queryIntentActivities(intent, 0).size();
       resolve(nrOfMailApps > 0);
     } catch (ex) {
