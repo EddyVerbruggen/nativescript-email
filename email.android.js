@@ -82,6 +82,8 @@ exports.compose = function (arg) {
         mail.setData(android.net.Uri.parse("mailto:"));
       }
 
+      mail.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+
       // we can wire up an intent receiver but it's always the same resultCode (0, canceled) anyway
       application.android.context.startActivity(mail);
       resolve(true);
