@@ -82,10 +82,8 @@ exports.compose = function (arg) {
         mail.setData(android.net.Uri.parse("mailto:"));
       }
 
+      // we can wire up an intent receiver but it's always the same resultCode (0, canceled) anyway
       application.android.context.startActivity(mail);
-
-      // we can wire up an intent receiver but it's always the same resultCode anyway so that's useless.. thanks Android!
-      // TODO or can we do that if we're not using a chooser?
       resolve(true);
     } catch (ex) {
       console.log("Error in email.compose: " + ex);
