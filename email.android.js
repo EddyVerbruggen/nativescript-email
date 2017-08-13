@@ -54,9 +54,6 @@ exports.compose = function (arg) {
         mail.putExtra(android.content.Intent.EXTRA_BCC, toStringArray(arg.bcc));
       }
 
-      mail.setType("message/rfc822");
-      mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE);
-
       if (arg.attachments) {
         var uris = new java.util.ArrayList();
         for (var a in arg.attachments) {
@@ -73,16 +70,22 @@ exports.compose = function (arg) {
         }
 
         if (!uris.isEmpty()) {
+          // required for Android 7+ (alternative is using a FileProvider (which is a better solution btw))
+          var builder = new android.os.StrictMode.VmPolicy.Builder();
+          android.os.StrictMode.setVmPolicy(builder.build());
+
+          mail.setAction(android.content.Intent.ACTION_SEND_MULTIPLE);
+          mail.setType("message/rfc822");
           mail.putParcelableArrayListExtra(android.content.Intent.EXTRA_STREAM, uris);
         }
       } else {
+        mail.setData(android.net.Uri.parse("mailto:"));
       }
 
-      var mailIntent = android.content.Intent.createChooser(mail, arg.appPickerTitle || "Open with..");
-      mailIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-      application.android.context.startActivity(mailIntent);
+      application.android.context.startActivity(mail);
 
       // we can wire up an intent receiver but it's always the same resultCode anyway so that's useless.. thanks Android!
+      // TODO or can we do that if we're not using a chooser?
       resolve(true);
     } catch (ex) {
       console.log("Error in email.compose: " + ex);
@@ -163,7 +166,7 @@ function _writeBytesToFile(ctx, fileName, contents) {
   var toFile = fs.File.fromPath(cacheFileName);
   toFile.writeSync(contents, function(e) { error = e; });
 
-  if (cacheFileName.indexOf("file://") == -1) {
+  if (cacheFileName.indexOf("file://") === -1) {
     cacheFileName = "file://" + cacheFileName;
   }
   return cacheFileName;

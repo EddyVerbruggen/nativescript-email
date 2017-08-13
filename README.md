@@ -77,8 +77,7 @@ var email = require("nativescript-email");
             fileName: 'telerik-logo.png',
             path: logoPath,
             mimeType: 'image/png'
-      }],
-      appPickerTitle: 'Compose with..' // for Android, default: 'Open with..'
+      }]
   }).then(
     function() {
       console.log("Email composer closed");

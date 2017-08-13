@@ -24,7 +24,7 @@ var _determineAvailability = function() {
     _isEmailAvailable = !isSimulator && MFMailComposeViewController.canSendMail();
   }
   return _isEmailAvailable;
-}
+};
 
 exports.available = function () {
   return new Promise(function (resolve, reject) {

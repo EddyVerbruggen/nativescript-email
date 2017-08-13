@@ -64,8 +64,7 @@
       attachments?: Array<Attachment>;
 
       /**
-       * On Android the user may have more than one app able to send email with.
-       * That will trigger a picker which has a title. You can change the default title here.
+       * @deprecated No longer used, but keeping it around to notify you.
        */
       appPickerTitle?: string;
     }

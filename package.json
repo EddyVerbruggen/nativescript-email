@@ -1,9 +1,9 @@
 {
   "name": "nativescript-email",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Email plugin for your NativeScript app",
   "main": "email",
-  "typings": "email.d.ts",
+  "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
       "ios": "2.3.0",
