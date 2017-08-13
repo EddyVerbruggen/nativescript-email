@@ -1,8 +1,16 @@
 # NativeScript Email
 
-An Email plugin for use in your NativeScript app.
+[![NPM version][npm-image]][npm-url]
+[![Downloads][downloads-image]][npm-url]
+[![Twitter Follow][twitter-image]][twitter-url]
 
-You can use it to compose emails, edit the draft manually, and send it.
+[npm-image]:http://img.shields.io/npm/v/nativescript-email.svg
+[npm-url]:https://npmjs.org/package/nativescript-email
+[downloads-image]:http://img.shields.io/npm/dm/nativescript-email.svg
+[twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
+[twitter-url]:https://twitter.com/eddyverbruggen
+
+You can use thsi plugin to compose emails, edit the draft manually, and send it.
 
 ## Installation
 Make sure you're running NativeScript 2.3.0 or up. Do `npm install -g nativescript` if not.
