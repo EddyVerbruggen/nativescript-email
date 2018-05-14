@@ -173,8 +173,15 @@ function _writeBytesToFile(ctx, fileName, contents) {
 }
 
 function _cleanAttachmentFolder() {
+  
   if (application.android.context) {
     var dir = application.android.context.getExternalCacheDir();
+
+    if (dir === null) {
+      console.log("Missing external cache dir");
+      return;
+    }
+
     var storage = dir.toString() + "/emailcomposer";
     var cacheFolder = fs.Folder.fromPath(storage);
     cacheFolder.clear();
