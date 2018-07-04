@@ -1,18 +1,22 @@
-var application = require("application");
-var fs = require("file-system");
+var application = require("tns-core-modules/application");
+var fs = require("tns-core-modules/file-system");
 
 (function() {
   _cleanAttachmentFolder();
 })();
 
+var _determineAvailability = function() {
+  var uri = android.net.Uri.fromParts("mailto", "", null);
+  var intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO, uri);
+  var packageManager = application.android.context.getPackageManager();
+  var nrOfMailApps = packageManager.queryIntentActivities(intent, 0).size();
+  return nrOfMailApps > 0;
+};
+
 exports.available = function () {
   return new Promise(function (resolve, reject) {
     try {
-      var uri = android.net.Uri.fromParts("mailto", "", null);
-      var intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO, uri);
-      var packageManager = application.android.context.getPackageManager();
-      var nrOfMailApps = packageManager.queryIntentActivities(intent, 0).size();
-      resolve(nrOfMailApps > 0);
+      resolve(_determineAvailability());
     } catch (ex) {
       console.log("Error in email.available: " + ex);
       reject(ex);
@@ -21,11 +25,10 @@ exports.available = function () {
 };
 
 exports.compose = function (arg) {
-  var that = this;
   return new Promise(function (resolve, reject) {
     try {
 
-      if (!that.available()) {
+      if (!_determineAvailability()) {
         reject("No mail available");
       }
 
@@ -132,7 +135,7 @@ function _getUriForAssetPath(path, fileName, ctx) {
   var localFileContents = localFile.readSync(function(e) { error = e; });
 
   var cacheFileName = _writeBytesToFile(ctx, fileName, localFileContents);
-  if (cacheFileName.indexOf("file://") == -1) {
+  if (cacheFileName.indexOf("file://") === -1) {
     cacheFileName = "file://" + cacheFileName;
   }
   return android.net.Uri.parse(cacheFileName);
@@ -173,7 +176,7 @@ function _writeBytesToFile(ctx, fileName, contents) {
 }
 
 function _cleanAttachmentFolder() {
-  
+
   if (application.android.context) {
     var dir = application.android.context.getExternalCacheDir();
 

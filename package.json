@@ -1,6 +1,6 @@
 {
   "name": "nativescript-email",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Email plugin for your NativeScript app",
   "main": "email",
   "typings": "index.d.ts",
@@ -15,6 +15,7 @@
     "url": "https://github.com/EddyVerbruggen/nativescript-email.git"
   },
   "keywords": [
+    "ecosystem:NativeScript",
     "NativeScript",
     "Mail",
     "Email",

@@ -1,6 +1,5 @@
-var frame = require("ui/frame");
-var fs = require("file-system");
-var utils = require("utils/utils");
+var fs = require("tns-core-modules/file-system");
+var utils = require("tns-core-modules/utils/utils");
 
 var _isEmailAvailable = null;
 
@@ -38,7 +37,6 @@ exports.available = function () {
 };
 
 exports.compose = function (arg) {
-  var that = this;
   return new Promise(function (resolve, reject) {
     try {
 
