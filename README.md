@@ -13,11 +13,9 @@
 You can use thsi plugin to compose emails, edit the draft manually, and send it.
 
 ## Installation
-Make sure you're running NativeScript 2.3.0 or up. Do `npm install -g nativescript` if not.
+Run this command from the root of your project:
 
-The run the following command from the root of your project:
-
-```
+```bash
 tns plugin add nativescript-email
 ```
 
