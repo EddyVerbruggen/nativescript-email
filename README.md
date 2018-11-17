@@ -10,7 +10,7 @@
 [twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
 [twitter-url]:https://twitter.com/eddyverbruggen
 
-You can use thsi plugin to compose emails, edit the draft manually, and send it.
+You can use this plugin to compose emails, edit the draft manually, and send it.
 
 ## Installation
 Run this command from the root of your project:
