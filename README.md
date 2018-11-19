@@ -10,7 +10,9 @@
 [twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
 [twitter-url]:https://twitter.com/eddyverbruggen
 
-You can use this plugin to compose emails, edit the draft manually, and send it.
+You can use this plugin to compose an e-mail, have the user edit the draft manually, and send it.
+
+> Note that this plugin depends on the default mail app. If you want a fallback to a third party client app like Gmail or Outlook, then check for availability, and if not available use a solution like [the Social Share plugin](https://github.com/tjvantoll/nativescript-social-share).
 
 ## Installation
 Run this command from the root of your project:
