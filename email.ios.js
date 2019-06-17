@@ -1,5 +1,6 @@
 var fs = require("tns-core-modules/file-system");
 var utils = require("tns-core-modules/utils/utils");
+var frame = require("tns-core-modules/ui/frame");
 
 var _isEmailAvailable = null;
 
@@ -45,6 +46,19 @@ exports.compose = function (arg) {
         return;
       }
 
+      var topMostFrame = frame.topmost();
+      if (topMostFrame) {
+          var viewController = topMostFrame.currentPage && topMostFrame.currentPage.ios;
+          if (viewController) {
+              while (viewController.parentViewController) {
+                  viewController = viewController.parentViewController;
+              }
+              while (viewController.presentedViewController) {
+                  viewController = viewController.presentedViewController;
+              }
+          }
+      }
+
       var mail = MFMailComposeViewController.new();
 
       var message = arg.body;
@@ -84,7 +98,7 @@ exports.compose = function (arg) {
         // invoke the callback / promise
         resolve(result == MFMailComposeResultSent);
         // close the mail
-        app.keyWindow.rootViewController.dismissViewControllerAnimatedCompletion(true, null);
+        viewController.dismissViewControllerAnimatedCompletion(true, null);
         // release the delegate instance
         CFRelease(delegate);
       });
@@ -94,7 +108,7 @@ exports.compose = function (arg) {
 
       mail.mailComposeDelegate = delegate;
 
-      app.keyWindow.rootViewController.presentViewControllerAnimatedCompletion(mail, true, null);
+      viewController.presentViewControllerAnimatedCompletion(mail, true, null);
 
     } catch (ex) {
       console.log("Error in email.compose: " + ex);
