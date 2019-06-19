@@ -4,7 +4,7 @@ var frame = require("tns-core-modules/ui/frame");
 
 var _isEmailAvailable = null;
 
-var _determineAvailability = function() {
+var _determineAvailability = function () {
   if (_isEmailAvailable === null) {
     var isSimulator;
     var processInfo = utils.ios.getter(NSProcessInfo, NSProcessInfo.processInfo);
@@ -48,15 +48,15 @@ exports.compose = function (arg) {
 
       var topMostFrame = frame.topmost();
       if (topMostFrame) {
-          var viewController = topMostFrame.currentPage && topMostFrame.currentPage.ios;
-          if (viewController) {
-              while (viewController.parentViewController) {
-                  viewController = viewController.parentViewController;
-              }
-              while (viewController.presentedViewController) {
-                  viewController = viewController.presentedViewController;
-              }
+        var viewController = topMostFrame.currentPage && topMostFrame.currentPage.ios;
+        if (viewController) {
+          while (viewController.parentViewController) {
+            viewController = viewController.parentViewController;
           }
+          while (viewController.presentedViewController) {
+            viewController = viewController.presentedViewController;
+          }
+        }
       }
 
       var mail = MFMailComposeViewController.new();
@@ -135,7 +135,7 @@ function _getDataForAttachmentPath(path) {
 }
 
 function _dataFromBase64(base64String) {
-  base64String = base64String.substring(base64String.indexOf("://")+3);
+  base64String = base64String.substring(base64String.indexOf("://") + 3);
   return NSData.alloc().initWithBase64EncodedStringOptions(base64String, 0);
 }
 
@@ -148,7 +148,9 @@ function _dataForAsset(path) {
   }
 
   var localFile = fs.File.fromPath(path);
-  return localFile.readSync(function(e) { error = e; });
+  return localFile.readSync(function (e) {
+    error = e;
+  });
 }
 
 function _dataForAbsolutePath(path) {
@@ -165,6 +167,7 @@ function _dataForAbsolutePath(path) {
 
 var MFMailComposeViewControllerDelegateImpl = (function (_super) {
   __extends(MFMailComposeViewControllerDelegateImpl, _super);
+
   function MFMailComposeViewControllerDelegateImpl() {
     _super.apply(this, arguments);
   }

@@ -1,11 +1,11 @@
 var application = require("tns-core-modules/application");
 var fs = require("tns-core-modules/file-system");
 
-(function() {
+(function () {
   _cleanAttachmentFolder();
 })();
 
-var _determineAvailability = function() {
+var _determineAvailability = function () {
   var uri = android.net.Uri.fromParts("mailto", "", null);
   var intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO, uri);
   var packageManager = application.android.context.getPackageManager();
@@ -132,7 +132,9 @@ function _getUriForAssetPath(path, fileName, ctx) {
   }
 
   var localFile = fs.File.fromPath(path);
-  var localFileContents = localFile.readSync(function(e) { error = e; });
+  var localFileContents = localFile.readSync(function (e) {
+    error = e;
+  });
 
   var cacheFileName = _writeBytesToFile(ctx, fileName, localFileContents);
   if (cacheFileName.indexOf("file://") === -1) {
@@ -167,7 +169,9 @@ function _writeBytesToFile(ctx, fileName, contents) {
   var cacheFileName = storage + "/" + fileName;
 
   var toFile = fs.File.fromPath(cacheFileName);
-  toFile.writeSync(contents, function(e) { error = e; });
+  toFile.writeSync(contents, function (e) {
+    error = e;
+  });
 
   if (cacheFileName.indexOf("file://") === -1) {
     cacheFileName = "file://" + cacheFileName;
