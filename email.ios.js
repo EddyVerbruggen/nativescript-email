@@ -7,14 +7,13 @@ var _isEmailAvailable = null;
 var _determineAvailability = function () {
   if (_isEmailAvailable === null) {
     var isSimulator;
-    var processInfo = utils.ios.getter(NSProcessInfo, NSProcessInfo.processInfo);
+    var processInfo = NSProcessInfo.processInfo;
     var isMinIOS9 = processInfo.isOperatingSystemAtLeastVersion({majorVersion: 9, minorVersion: 0, patchVersion: 0});
     if (isMinIOS9) {
       var simDeviceName = processInfo.environment.objectForKey("SIMULATOR_DEVICE_NAME");
       isSimulator = simDeviceName !== null;
     } else {
-      var currentDevice = utils.ios.getter(UIDevice, UIDevice.currentDevice);
-      isSimulator = currentDevice.name.toLowerCase().indexOf("simulator") > -1;
+      isSimulator = UIDevice.currentDevice.name.toLowerCase().indexOf("simulator") > -1;
     }
 
     if (isSimulator) {
@@ -91,8 +90,6 @@ exports.compose = function (arg) {
         }
       }
 
-      var app = utils.ios.getter(UIApplication, UIApplication.sharedApplication);
-
       // Assign first to local variable, otherwise it will be garbage collected since delegate is weak reference.
       var delegate = MFMailComposeViewControllerDelegateImpl.new().initWithCallback(function (result, error) {
         // invoke the callback / promise
@@ -126,7 +123,7 @@ function _getDataForAttachmentPath(path) {
   } else if (path.indexOf("base64:") === 0) {
     data = _dataFromBase64(path);
   } else {
-    var fileManager = utils.ios.getter(NSFileManager, NSFileManager.defaultManager);
+    var fileManager = NSFileManager.defaultManager;
     if (fileManager.fileExistsAtPath(path)) {
       data = fileManager.contentsAtPath(path);
     }
@@ -154,7 +151,7 @@ function _dataForAsset(path) {
 }
 
 function _dataForAbsolutePath(path) {
-  var fileManager = utils.ios.getter(NSFileManager, NSFileManager.defaultManager);
+  var fileManager = NSFileManager.defaultManager;
   var absPath = path.replace("file://", "");
 
   if (!fileManager.fileExistsAtPath(absPath)) {
