@@ -1,5 +1,4 @@
 var fs = require("tns-core-modules/file-system");
-var utils = require("tns-core-modules/utils/utils");
 var frame = require("tns-core-modules/ui/frame");
 
 var _isEmailAvailable = null;
@@ -63,7 +62,7 @@ exports.compose = function (arg) {
       var message = arg.body;
       if (message) {
         var messageAsNSString = NSString.stringWithString(message);
-        var isHTML = messageAsNSString.rangeOfStringOptions("<[^>]+>", NSRegularExpressionSearch).location != NSNotFound;
+        var isHTML = messageAsNSString.rangeOfStringOptions("<[^>]+>", NSRegularExpressionSearch).location !== NSNotFound;
         mail.setMessageBodyIsHTML(arg.body, isHTML);
       }
       mail.setSubject(arg.subject);
@@ -93,7 +92,7 @@ exports.compose = function (arg) {
       // Assign first to local variable, otherwise it will be garbage collected since delegate is weak reference.
       var delegate = MFMailComposeViewControllerDelegateImpl.new().initWithCallback(function (result, error) {
         // invoke the callback / promise
-        resolve(result == MFMailComposeResultSent);
+        resolve(result === MFMailComposeResult.Sent);
         // close the mail
         viewController.dismissViewControllerAnimatedCompletion(true, null);
         // release the delegate instance
