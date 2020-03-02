@@ -1,27 +1,14 @@
 var fs = require("tns-core-modules/file-system");
 var frame = require("tns-core-modules/ui/frame");
 
-var _isEmailAvailable = null;
-
 var _determineAvailability = function () {
-  if (_isEmailAvailable === null) {
-    var isSimulator;
-    var processInfo = NSProcessInfo.processInfo;
-    var isMinIOS9 = processInfo.isOperatingSystemAtLeastVersion({majorVersion: 9, minorVersion: 0, patchVersion: 0});
-    if (isMinIOS9) {
-      var simDeviceName = processInfo.environment.objectForKey("SIMULATOR_DEVICE_NAME");
-      isSimulator = simDeviceName !== null;
-    } else {
-      isSimulator = UIDevice.currentDevice.name.toLowerCase().indexOf("simulator") > -1;
-    }
+  var isSimulator = NSProcessInfo.processInfo.environment.objectForKey("SIMULATOR_DEVICE_NAME") !== null;
 
-    if (isSimulator) {
-      console.log("Email is not available on the Simulator");
-    }
-
-    _isEmailAvailable = !isSimulator && MFMailComposeViewController.canSendMail();
+  if (isSimulator) {
+    console.log("Email is not available on the Simulator");
   }
-  return _isEmailAvailable;
+
+  return !isSimulator && MFMailComposeViewController.canSendMail();
 };
 
 exports.available = function () {

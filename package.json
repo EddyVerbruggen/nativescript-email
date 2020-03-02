@@ -1,6 +1,6 @@
 {
   "name": "nativescript-email",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "description": "Email plugin for your NativeScript app",
   "main": "email",
   "typings": "index.d.ts",
